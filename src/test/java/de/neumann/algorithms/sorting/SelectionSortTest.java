@@ -3,7 +3,7 @@ package de.neumann.algorithms.sorting;
 import org.junit.Test;
 import java.util.Arrays;
 import java.util.Random;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
 
 public class SelectionSortTest {
 
@@ -19,8 +19,9 @@ public class SelectionSortTest {
         int[] sortedArray = array.clone();
 
         Arrays.sort(sortedArray);
+        System.out.println("SelectionSort\n_______________\n");
         System.out.println("Unsorted Array: " + Arrays.toString(array));
         assertArrayEquals(sortedArray,SelectionSort.selectionSort(array));
-        System.out.println("Sorted Array: " + Arrays.toString(array));
+        System.out.println("Sorted Array: " + Arrays.toString(array)+"\n");
     }
 }
