@@ -1,5 +1,7 @@
 package de.neumann.algorithms;
 
+import java.util.Random;
+
 /**
  * Class with sorting algorithms
  * @author Oliver Neumann
@@ -14,13 +16,13 @@ public class Sort {
      * @param array Array to be sorted.
      * @return Sorted array.
      */
-    public static int[] bubbleSort(int[] array){
+    public static <T extends Comparable<T>> T[] bubbleSort(T[] array){
         for (int max = array.length - 1; max > 0; max--) {
             boolean swapped = false;
             for (int i = 0; i < max; i++) {
-                int left = array[i];
-                int right = array[i + 1];
-                if (left > right) {
+                T left = array[i];
+                T right = array[i + 1];
+                if (left.compareTo(right) > 0) {
                     array[i + 1] = left;
                     array[i] = right;
                     swapped = true;
@@ -48,13 +50,13 @@ Disadvantages of BubbleSort:
      * @param array Array to be sorted.
      * @return Sorted array.
      */
-    public static int[] insertionSort(int[] array){
+    public static <T extends Comparable<T>> T[] insertionSort(T[] array){
         int length = array.length;
         for(int i = 1; i < length; i++){
-            int shiftKey = array[i];
+            T shiftKey = array[i];
             int j = i -1 ;
 
-            while(j >= 0 && array[j] > shiftKey){
+            while(j >= 0 && array[j].compareTo(shiftKey) > 0){
                 array[j + 1] = array[j];
                 j = j - 1;
             }
@@ -138,19 +140,19 @@ Disadvantages:
      * @param array Array to sort.
      * @return Sorted array.
      */
-    public static int[] selectionSort(int[] array){
+    public static <T extends Comparable<T>> T[] selectionSort(T[] array){
         int length = array.length;
 
         for(int i = 0; i < length - 1; i++){
             int min = i;
             for(int j = i + 1; j < length; j++){
-                if(array[j] < array[min])
+                if(array[j].compareTo(array[min]) < 1)
                     min = j;
             }
             /*
             Swapping the minimum element with the first bigger element.
              */
-            int temp = array[min];
+            T temp = array[min];
             array[min] = array[i];
             array[i] = temp;
         }
@@ -163,4 +165,46 @@ Advantages:
 Disadvantages:
 - Time Complexity of O(n^2)
  */
+
+    /**
+     * BogoSort function.
+     * Time Complexity: Best O(n), Average O(n*n!), Worst O(n*n!)
+     * Space Complexity: O(1).
+     * Stable: No.
+     * @param array Array to sort.
+     * @return Sorted array.
+     */
+    public static <T extends Comparable<T>> T[] bogoSort(T[] array){
+        Random rd = new Random();
+
+        while(!isSorted(array)){
+            int a = rd.nextInt(array.length);
+            int b = rd.nextInt(array.length);
+
+            T temp = array[a];
+            array[a] = array[b];
+            array[b] = temp;
+        }
+        return array;
+    }
+/*
+Advantages:
+- It's dumb therefore it's funny.
+
+Disadvantages:
+- It's entire existence
+ */
+
+    /**
+     * Function to check if an array is sorted.
+     * @param array Array to check.
+     * @return Returns true if array is sorted. False if it's not.
+     */
+    private static <T extends Comparable<T>> boolean isSorted(T[] array){
+        for(int i = 0; i < array.length - 1; i++) {
+            if (array[i].compareTo(array[i + 1]) > 0)
+                return false;
+        }
+        return true;
+    }
 }
